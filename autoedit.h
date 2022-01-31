@@ -20,7 +20,7 @@
 // path to <file>.html - note no trailing /
 #define HUG_HTML_PATH (HUG_PATH "/" "site/public/post/%s/index.html")
 // path to case_studies.html - no trailing /
-#define CAS_PATH (DW_PATH" "/" casestudies/case-studies.html")
+#define CAS_PATH (DW_PATH "/" "casestudies/case-studies.html")
 // path to <file>.html - no trailing /
 #define DW_HTML_PATH (DW_PATH "/" "casestudies/%s.html")
 
@@ -99,9 +99,10 @@ description: >-
 
 char *case_study[] = {
   "<div class=\"w-50-ns ph1-ns flex\"> <a href=\"/casestudies/%s.html\" class=\"no-underline pa3 bg-grey-1 br1 mb2 db raise w-100\">",
-  "<h2 class=\"f3 b lh-title mb1 primary\">%s</h2>",
-  "<p class=\"mid-gray lh-title mb2\">%s</p>",
-  "<p class=\"mb0\">%s</p>",
-  "<p class=\"link b dib black mb0\">Read more →</p>",
+  "  <h2 class=\"f3 b lh-title mb1 primary\">%s</h2>",
+  "  <p class=\"mid-gray lh-title mb2\">%s</p>",
+  "  <p class=\"mb0\">%s</p>",
+  "  <p class=\"link b dib black mb0\">Read more →</p>",
   "</a> </div>",
+  "",
   NULL };

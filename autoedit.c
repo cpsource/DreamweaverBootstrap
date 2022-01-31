@@ -14,12 +14,88 @@ description: >-
 ---
 #endif // 0
 
+int n_flag = 0;
+
   // get header - note we leave the file open and the next fgets will start
   // reading after the ---
   
 char *date = NULL;
 char *title = NULL;
 char *desc = NULL;
+
+void edit_case_studies(char *fname)
+{
+  FILE *inf;
+  FILE *outf;
+  char work_buffer[1024];
+  char there_buffer[1024];
+  char wbuf[4096];
+  int i;
+  
+  outf = fopen("/tmp/case-studies.html","w");
+  if ( ! outf ) {
+    printf("Error: can't create /tmp/case-studies.html\n");
+    exit(0);
+  }
+  
+  inf = fopen(CAS_PATH,"r");
+  if ( !inf ) {
+    printf("Error: can't open input file <%s>\n",CAS_PATH);
+    exit(0);
+  }
+
+  // used to check if it's already there
+  sprintf(there_buffer,"/casestudies/%s.html",fname);
+ 
+  while ( fgets(wbuf,sizeof(wbuf),inf) ) {
+    // check if it's already there 
+    if ( strstr(wbuf,there_buffer) ) {
+      // yes, skip down to after </div>
+      while ( fgets(wbuf,sizeof(wbuf),inf) ) {
+	if ( strstr(wbuf,"</div>") ) {
+	  goto cont;
+	} // if at end
+      } // inner while
+      goto cont;
+    } // if already there
+
+    // do we place it here ???
+    if ( strstr(wbuf,AF) ) {
+      // yes, we place case_study[] here
+      i = 0;
+      while ( case_study[i] ) {
+	switch ( i ) {
+	case 0:
+	  sprintf(work_buffer,case_study[i],fname);
+	  fprintf(outf,"%s\n",work_buffer);	  
+	  break;
+	case 1:
+	  sprintf(work_buffer,case_study[i],title);
+	  fprintf(outf,"%s\n",work_buffer);	  
+	  break;
+	case 2:
+	  sprintf(work_buffer,case_study[i],date);
+	  fprintf(outf,"%s\n",work_buffer);	  
+	  break;
+	case 3:
+	  sprintf(work_buffer,case_study[i],desc);
+	  fprintf(outf,"%s\n",work_buffer);	  
+	  break;
+	default:
+	  fprintf(outf,"%s\n",case_study[i]);
+	} // switch
+	i += 1;
+      } // while
+      fprintf(outf,"%s\n",AF);
+      goto cont;
+    } // if place here check
+    fprintf(outf,"%s",wbuf);
+  cont:;
+  } // while
+  
+  fclose(inf);
+  fclose(outf);
+}
 
 void build_html(FILE **outf, char *fname)
 {
@@ -107,7 +183,7 @@ void get_hdr_info(FILE **inf, char *fname)
   while (fgets(wbuf,cnt,*inf)) {
     n = strchr(wbuf,'\n'); if ( n ) *n = 0;
     n = strchr(wbuf,'\r'); if ( n ) *n = 0;
-    printf("reading line <%s>\n",wbuf);
+    //printf("reading line <%s>\n",wbuf);
 #define DATE "date: "
     if ( 0 == strncmp(DATE,wbuf,strlen(DATE)) ) {
       c = wbuf;
@@ -170,15 +246,22 @@ int main(int argc, char *argv[])
   FILE *html_outf = NULL;
   
   if ( argc < 2 ) {
-    printf("Usage: ./autoedit: file-to-merge\n");
+    printf("Usage: ./autoedit: file-to-merge [-n]\n");
     exit(0);
   }
-
+  if ( argc > 2 ) {
+    n_flag = 1;
+  }
+  
   get_hdr_info(&md_inf,argv[1]);
   if ( md_inf ) fclose(md_inf);
 
   build_html(&html_outf, argv[1]);
   if ( html_outf ) fclose(html_outf);
+
+  if ( ! n_flag ) {
+    edit_case_studies(argv[1]);
+  }
   
   return 0;
 }
