@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hire Competent Engineers.</title>
+
+<link href="../css/main.125b5-formatted.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="../css/bootstrap-4.4.1.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <a class="navbar-brand" href="/" style="color: red">RedFire</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav mr-auto">
+<li class="nav-item active"> <a class="nav-link" href="/">Home</a> </li>
+<li class="nav-item active"> <a class="nav-link" href="/casestudies/case-studies.html">CaseStudies</a> </li>
+</ul>
+</div>
+</nav>
+
+
+    
+
+  <div class="mw6 center ph3 pv4">
+    <h1 class="f2 lh-title b mb3">Hire Competent Engineers.</h1>
+    <div class="flex justify-between grey-3">
+      <p>Fri, Feb 4, 2022</p>
+      <p>Read in 4 minutes</p>
+    </div>
+    <div class="cms mw6">
+      <p>We present a &#39;C&#39; test you can use to hire competent engineering staff.</p>
+      
+      
+
+<h1 id="hire-competent-engineering-staff">Hire Competent Engineering Staff</h1>
+
+<p>This goes without saying. In this article, we present a small test of the &lsquo;C&rsquo; language you can use to screen job candidates.</p>
+
+<p>A bit of a warning though. I doubt many recent comp-sci college graduates could pass this. Even though the tests look simple, they require a deep knowledge of the language.</p>
+
+<h2 id="test-1">Test 1</h2>
+
+<pre><code>#include &lt;string.h&gt;
+
+//
+// Why does this program corrupt the stack?
+//
+
+int main()
+{
+  char m[4];
+
+  strcpy(m,&quot;1234&quot;);
+}
+
+</code></pre>
+
+<p><a href="/tests/c_check1.c">c_check1.c</a></p>
+
+<h2 id="test-2">Test 2</h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+// to compile
+//
+//  gcc -g -o c_check2 c_check2.c
+//
+//
+// Why doesn't main recognize the error from subroutine ?
+//
+// When run, we get:
+//   ./c_check2
+//   No Error Detected
+//
+
+unsigned int subroutine()
+{
+  // do something useful
+  
+  // detect an error and return
+  return -1;
+}
+
+int main()
+{
+  if ( subroutine() &lt; 0 ) {
+    printf(&quot;Error Detected\n&quot;);
+  } else {
+    printf(&quot;No Error Detected\n&quot;);
+  }
+}
+</code></pre>
+
+<p><a href="/tests/c_check2.c">c_check2.c</a></p>
+
+<h2 id="test-3">Test 3</h2>
+
+<pre><code>// to compile
+//
+//  gcc -g -o c_check3 c_check3.c
+//
+// To Run
+//
+//  ./c_check3
+//   The quick brown fox jumped over the lazy dog.
+//
+// One of your programmers has come up with a fast way to pass data to
+// subroutines.
+//
+// Explain why this works AND
+// explain why this code should never be included in the project.
+//
+// Explain what you know of the Intel Application Binary Interface (ABI).
+//
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;ctype.h&gt;
+
+#define MYSTR &quot;The quick brown fox jumped over the lazy dog.\0&quot;
+
+void subroutine()
+{
+  char *m;
+  char *n = (char *)&amp;m;;
+
+  n += 40;
+  
+  while ( *n != 0 ) {
+    if ( *n == 0 ) break;
+    putchar(*n++);
+  }
+  putchar('\n');
+  
+}
+
+int main()
+{
+  char m[64];;
+
+  strcpy(m,MYSTR);
+
+  subroutine();
+
+}
+
+</code></pre>
+
+<p><a href="/tests/c_check3.c">c_check3.c</a></p>
+
+<h2 id="test-4">Test 4</h2>
+
+<pre><code>#include &lt;setjmp.h&gt;
+#include &lt;stdlib.h&gt;
+
+// to compile
+//
+//  gcc -g -o c_check4 c_check4.c
+//
+// Explain why valgrind objects
+//
+// valgrind ./c_check4
+// ==8291== Memcheck, a memory error detector
+// ==8291== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+// ==8291== Using Valgrind-3.17.0 and LibVEX; rerun with -h for copyright info
+// ==8291== Command: ./c_check4
+// ==8291== 
+// ==8291== 
+// ==8291== HEAP SUMMARY:
+// ==8291==     in use at exit: 1,024 bytes in 1 blocks
+// ==8291==   total heap usage: 1 allocs, 0 frees, 1,024 bytes allocated
+// ==8291== 
+// ==8291== LEAK SUMMARY:
+// ==8291==    definitely lost: 1,024 bytes in 1 blocks
+// ==8291==    indirectly lost: 0 bytes in 0 blocks
+// ==8291==      possibly lost: 0 bytes in 0 blocks
+// ==8291==    still reachable: 0 bytes in 0 blocks
+// ==8291==         suppressed: 0 bytes in 0 blocks
+// ==8291== Rerun with --leak-check=full to see details of leaked memory
+// ==8291== 
+// ==8291== For lists of detected and suppressed errors, rerun with: -s
+// ==8291== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+//
+
+static jmp_buf env;
+
+static void inner(void)
+{
+  longjmp(env, 1);
+}
+
+static void middle(void)
+{
+  void *ptr = malloc(1024);
+  inner();
+  free(ptr);
+}
+
+void outer(void)
+{
+  int i;
+
+  i = setjmp(env);
+  if (i == 0)
+    middle();
+}
+
+int main()
+{
+  outer();
+}
+
+</code></pre>
+
+<p><a href="/tests/c_check4.c">c_check4.c</a></p>
+
+<h2 id="test-5">Test 5</h2>
+
+<pre><code>//
+// Bob has decided to forward declare his function
+// for Alice and writes the following:
+//
+
+unsigned short m(int *(*n)(int *o));
+
+// Please fully explain m,n, and o
+
+//
+// During a code review, Bob and Alice are
+// arguing about which is right. They
+// have come to you. What do you say?
+//
+
+Bob Writes  : int main(int argc, char *argv);
+Alice Writes: int main(int argc, char **argv);
+
+</code></pre>
+
+<p><a href="/tests/c_check5.c">c_check5.c</a></p>
+
+<h2 id="test-6">Test 6</h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+// Compile
+//
+//  gcc -o c_check6 c_check6.c
+//
+// Execute
+//
+//  ./c_check6
+//  x = 4
+//  x now equals 0
+//
+
+// Why isn't x = 0 printed when x = 5 was?
+
+int main()
+{
+  auto int x = 3;
+
+  if ( x = 5 )
+    printf(&quot;x = 4\n&quot;);
+
+  if ( x = 0 )
+    printf(&quot;x = 0\n&quot;);
+
+  printf(&quot;x now equals %d\n&quot;,x);
+}
+
+</code></pre>
+
+<p><a href="/tests/c_check6.c">c_check6.c</a></p>
+
+<h2 id="test-7">Test 7</h2>
+
+<pre><code>// Compile
+//
+//  gcc -o c_check7 c_check7.c
+//
+// Why does the following program display the incorrect
+// size of the string?
+//
+// If get_string_length returned sizeof(*str) instead, would
+// that fix it?
+//
+#include &lt;stdio.h&gt;
+
+int get_string_length(char *str)
+{
+  return sizeof(str);
+}
+
+int main()
+{
+  char *m = &quot;The quick brown fox jumped over the lazy dog.&quot;;
+
+  printf(&quot;length of string = %d\n&quot;,get_string_length(m));
+}
+
+</code></pre>
+
+<p><a href="/tests/c_check7.c">c_check7.c</a></p>
+
+    </div>
+  </div>
+
+
+<footer class="text-center">
+<div class="container">
+<div class="row">
+<div class="col-12">
+<p>Copyright © RedFire Consultants. All rights reserved.</p>
+</div>
+</div>
+</div>
+</footer>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="../js/jquery-3.4.1.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap-4.4.1.js"></script>
+</body>
+</html>
