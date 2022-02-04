@@ -223,16 +223,21 @@
 		  or drop us a line.
       </address>
 		<div> <hr>
-		<form name="contact" method="POST" netlify data-netlify-recaptcha="true">
-  <div class="form-group">
-    
-    <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter your email" required>
-    <input type="comment" class="form-control" id="exampleInputComment" aria-describedby="commentHelp" placeholder="Enter your comment">
-  </div>
-			
-  <div data-netlify-recaptcha="true"></div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+			    <form name="contact" method="POST" netlify data-netlify-recaptcha="true">
+      <p>
+	<label>Your Name: <input type="text" name="name" /></label>   
+      </p>
+      <p>
+	<label>Your Email: <input type="email" name="email" required /></label>
+      </p>
+      <p>
+	<label>Message: <textarea name="message"></textarea></label>
+      </p>
+      <div data-netlify-recaptcha="true"></div>
+      <p>
+	<button type="submit">Send</button>
+      </p>
+    </form>	
 
 		</div>
 <!--		
